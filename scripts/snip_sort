@@ -1,3 +1,6 @@
 #!/usr/bin/env python2
+import sys
 
-python -m snip_sort
+import snip_sort
+
+snip_sort.main.main(sys.argv)

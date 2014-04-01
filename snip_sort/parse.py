@@ -2,8 +2,7 @@ from path import path
 from collections import Counter
 import sys
 
-FILE_HEADER="""
-##fileformat=VCFv4.1
+FILE_HEADER="""##fileformat=VCFv4.1
 ##fileDate=20140304
 ##fileEncoding=UTF-8
 ##source=CLC Genomics Workbench 7.0 build 700105893
@@ -33,11 +32,12 @@ def get_lines_of_data(filename, all_entries):
             full_data = line.split('\t')
             data = full_data[9:]
 
+            full_data[0] = full_data[0] + "--" + full_data[1]
             line_key = tuple(full_data[:9])
             all_entries.append(line_key)
 
             if line_key in this_file:
-                print "SOmething went wrong - duplicate line: {}".format(line_key)
+                print "Something went wrong - duplicate line: {}".format(line_key)
             else:
                 this_file[line_key] = {}
 
@@ -64,7 +64,7 @@ def parse_all_inputs(filelist):
     for filename in per_filename:
         for data in per_filename[filename]:
             # Case where there is a  problem against the reference
-            if ',' in data[4]:
+            if ',' in data[4] or len(data[3]):
                 if data not in oddities:
                     oddities[data] = per_filename[filename][data]
                 else:

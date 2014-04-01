@@ -32,7 +32,7 @@ def get_lines_of_data(filename, all_entries):
             full_data = line.split('\t')
             data = full_data[9:]
 
-            full_data[0] = full_data[0] + "--" + full_data[1]
+            full_data = munge_data(full_data)
             line_key = tuple(full_data[:9])
             all_entries.append(line_key)
 
@@ -44,6 +44,15 @@ def get_lines_of_data(filename, all_entries):
             for i, key in enumerate(key_set):
                 this_file[line_key][key] = data[i]
     return key_set, this_file
+
+
+def munge_data(full_data):
+    full_data[0] = full_data[0] + "--" + full_data[1]
+    full_data[2] = "0" if full_data[2] == "." else full_data[2]
+    full_data[5] = "0" if full_data[5] == "." else full_data[5]
+    full_data[6] = "0" if full_data[6] == "." else full_data[6]
+    full_data[7] = "0" if full_data[7] == "." else full_data[7]
+    return full_data
 
 
 def parse_all_inputs(filelist):
